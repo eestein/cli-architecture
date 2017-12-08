@@ -1,4 +1,1 @@
-export class BaseModel {
-    Id: number  = 0;
-    ChangedProperties: string[];
-}
+export abstract class BaseModel { }

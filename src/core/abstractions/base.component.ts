@@ -23,11 +23,10 @@ export abstract class BaseComponent<T extends BaseModel> {
         this.activatedRoute.params.subscribe((params: Params) => {
             this.recordId = params['id'] ? +params['id'] : undefined;
             this.isEdit = this.recordId !== undefined;
-            this.titleAction = this.isEdit ? 'Editar' : 'Criar';
+            this.titleAction = this.isEdit ? 'Update' : 'New';
         });
     }
 
-    //ToDo - Verificar uma forma melhor de fazer isso
     abstract afterInit(): void;
 
     protected init(): void {
@@ -50,7 +49,7 @@ export abstract class BaseComponent<T extends BaseModel> {
     }
 
     protected showSuccessAndReturn(): void {
-        this.alertService.showSuccess('Registro salvo com sucesso!', '', () => this.returnToPrevious());
+        this.alertService.showSuccess('Record successfully saved!', '', () => this.returnToPrevious());
     }
 
     protected returnToPrevious(): void {

@@ -19,7 +19,7 @@ import 'rxjs/add/observable/empty';
 const ApiUrl: string = `${environment.baseUrl}api/`;
 
 /**
- * Serviço gerenciador da comunicação com o servidor
+ * Manages all server-side requests
  */
 @Injectable()
 export class RequestService {
@@ -32,49 +32,49 @@ export class RequestService {
     ) { }
 
     /**
-     * Cria uma requisição do tipo GET
-     * @param {string} url URL de destino
+     * Makes a GET type request
+     * @param {string} url URL
      */
     makeGet<T>(url: string, ...params: UrlParameterModel[]): Observable<T> {
         return this.makeRequest<T>('get', this.getUrl(url, false, params));
     }
 
     /**
-     * Cria uma requisição do tipo POST
-     * @param {string} url URL de destino
+     * Makes a POST type request
+     * @param {string} url URL
      */
     makePost<T>(url: string, data?: Object): Observable<T> {
         return this.makeRequest<T>('post', this.getUrl(url), data);
     }
 
     /**
-     * Cria uma requisição do tipo PUT
-     * @param {string} url URL de destino
+     * Makes a PUT type request
+     * @param {string} url URL
      */
     makePut<T>(url: string, data?: Object): Observable<T> {
         return this.makeRequest<T>('put', this.getUrl(url), data);
     }
 
     /**
-     * Cria uma requisição do tipo DELETE
-     * @param {string} url URL de destino
+     * Makes a DELETE type request
+     * @param {string} url URL
      */
     makeDelete(url: string): void {
         this.makeRequest('delete', this.getUrl(url));
     }
 
     /**
-     * Cria uma requisição do tipo POST com arquivo
-     * @param {string} url URL de destino
+     * Makes a POST with file type request
+     * @param {string} url URL
      */
     makeFilePost<T>(url: string, data?: Object): Observable<T> {
         return this.makeRequest<T>('post', this.getUrl(url), data, true);
     }
 
     /**
-     * Loga um usuário no sistema e retorna o TOKEN
-     * @param {string} username Nome de usuário
-     * @param {string} password Senha
+     * Requests a TOKEN - logins the user
+     * @param {string} username Username
+     * @param {string} password Password
      */
     getToken(username: string, password: string): Observable<TokenResponseModel> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -85,7 +85,7 @@ export class RequestService {
             .map((res: Response) => res.json())
             .catch((error: any) => {
                 this.loggerService.error(error);
-                this.alertService.showAlert('Não foi possível entrar, favor verificar os dados e tentar novamente.');
+                this.alertService.showAlert('It was not possible to login, try again.');
 
                 return Observable.empty();
             })

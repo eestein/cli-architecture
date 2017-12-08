@@ -7,7 +7,7 @@ import { AlertService } from './alert.service';
 import { SessionService } from './session.service';
 
 /**
- * Serviço responsável pela segurança do usuário
+ * Manages security related actions
  */
 @Injectable()
 export class SecurityService {
@@ -21,9 +21,9 @@ export class SecurityService {
     ) { }
 
     /**
-     * Loga um usuário
-     * @param {string} username Nome de usuário
-     * @param {string} password Senha
+     * Logins an user
+     * @param {string} username Username
+     * @param {string} password Password
      */
     login(username: string, password: string): void {
         this.requestService.getToken(username, password).subscribe(tokenResponse => {
@@ -39,9 +39,7 @@ export class SecurityService {
 
             this.securityStorage.saveUserToken(tokenResponse);
 
-            // todo: se necessário buscar dados do usuário e preencher na sessão (SessionService)
-
-            // se redirectUrl estiver preenchido, redirecionar o usuário
+            // If redirectUrl is informed, redirect the user to that route
             if (this.redirectUrl)
                 this.router.navigate([this.redirectUrl]);
             else
@@ -50,7 +48,7 @@ export class SecurityService {
     }
 
     /**
-     * Finaliza a sessão do usuário
+     * Logs the user out
      */
     logout(): void {
         this.securityStorage.clear();
@@ -59,8 +57,8 @@ export class SecurityService {
     }
 
     /**
-     * Retorna se o usuário está logado
-     * @returns {boolean} Se o usuário está logado
+     * Verifies if the user is logged in
+     * @returns {boolean} whether the user is logged in
      */
     isLoggedIn(): boolean {
         var userToken = this.securityStorage.getUserToken();
@@ -72,8 +70,8 @@ export class SecurityService {
     }
 
     /**
-     * Obtém o TOKEN do usuário logado
-     * @returns {string} TOKEN do usuário logado
+     * Retrieves the TOKEN of the logged in user
+     * @returns {string} TOKEN
      */
     getToken(): string {
         return this.securityStorage.getUserToken().access_token;
